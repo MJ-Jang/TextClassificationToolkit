@@ -29,8 +29,8 @@ class RNNSAClassifier:
         if use_default_tok:
             filename = 'tokenizer.model'
             here = '/'.join(os.path.dirname(__file__).split('/')[:-1])
+            print(here)
             full_filename = os.path.join(here, "resources", filename)
-            print(full_filename)
             self.tok = SentencePieceTokenizer(full_filename)
         else:
             self.tok = tok
