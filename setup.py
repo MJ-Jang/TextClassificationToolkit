@@ -11,7 +11,7 @@ setup(
     install_requires=required,
     packages=find_packages(exclude=['docs', 'tests', 'tmp', 'data', '__pycache__']),
     python_requires='>=3',
-    package_data={'tctk': ['resources/*']},
+    package_data={'tctk': ['resource/*']},
     zip_safe=False,
     include_package_data=True
 )
