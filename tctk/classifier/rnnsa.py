@@ -33,7 +33,7 @@ class RNNSAClassifier:
             self.tok = SentencePieceTokenizer(full_filename)
         else:
             self.tok = tok
-        self.pad_id = tok.token_to_id(self.tok.pad)
+        self.pad_id = self.tok.token_to_id(self.tok.pad)
         vocab_size = len(self.tok)
 
         self.model_conf = {
