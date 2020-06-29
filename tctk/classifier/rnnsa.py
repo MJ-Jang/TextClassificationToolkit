@@ -16,7 +16,7 @@ from collections import OrderedDict
 class RNNSAClassifier:
     def __init__(self,
                  class_num: int,
-                 tok,
+                 tok=None,
                  emb_size: int = 100,
                  hidden_dim: int = 100,
                  n_layers: int = 2,
@@ -24,9 +24,8 @@ class RNNSAClassifier:
                  attn_hops: int = 2,
                  nfc: int = 100,
                  dropout: float = 0.5,
-                 use_gpu: bool = True,
-                 use_default_tok: bool = True):
-        if use_default_tok:
+                 use_gpu: bool = True):
+        if not tok:
             filename = 'tokenizer.model'
             here = '/'.join(os.path.dirname(__file__).split('/')[:-1])
             print(here)
@@ -34,8 +33,8 @@ class RNNSAClassifier:
             self.tok = SentencePieceTokenizer(full_filename)
         else:
             self.tok = tok
-        self.pad_id = tok.token_to_id(tok.pad)
-        vocab_size = len(tok)
+        self.pad_id = tok.token_to_id(self.tok.pad)
+        vocab_size = len(self.tok)
 
         self.model_conf = {
             'vocab_size': vocab_size,
