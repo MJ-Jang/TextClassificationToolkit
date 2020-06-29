@@ -30,7 +30,7 @@ class RNNSAClassifier:
             filename = 'tokenizer.model'
             here = '/'.join(os.path.dirname(__file__).split('/')[:-1])
             print(here)
-            full_filename = os.path.join(here, "resources", filename)
+            full_filename = os.path.join(here, "resource", filename)
             self.tok = SentencePieceTokenizer(full_filename)
         else:
             self.tok = tok
