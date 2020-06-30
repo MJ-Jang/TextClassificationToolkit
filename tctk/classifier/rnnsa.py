@@ -123,9 +123,9 @@ class RNNSAClassifier:
         prob, pred = logits.max(dim=-1)
 
         if self.label_dict:
-            return self.label_dict['id2label'][int(pred)], prob
+            return self.label_dict['id2label'][int(pred)], float(prob[0].cpu().detach())
         else:
-            return int(pred), prob
+            return int(pred), float(prob[0].cpu().detach())
 
     def save_dict(self, save_path, model_prefix):
         os.makedirs(save_path, exist_ok=True)
