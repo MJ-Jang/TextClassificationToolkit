@@ -16,12 +16,14 @@ class RuleTfidfTextEnsemble:
         self.tfidf_model.load(tfidf_model_path)
 
     def infer(self, text: str, rule_threshold: float = 0.5, tfidf_threshold: float = 0.3):
+        score = None
         pred, prob = self.tfidf_model.infer(text)
         if prob < tfidf_threshold:
-            pred_, score_ = self.rule_model.infer(text)
-            if pred_ and score_ >= rule_threshold:
-                return pred
+            pred_, score = self.rule_model.infer(text)
+            if pred_ and score >= rule_threshold:
+                res = pred
             else:
-                return ''
+                res = ''
         else:
-            return pred
+            res = pred,
+        return {'pred': res,  'ml_score': prob, 'rule_score': score}
