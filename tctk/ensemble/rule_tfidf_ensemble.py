@@ -25,6 +25,3 @@ class RuleTfidfTextEnsemble:
                 return ''
         else:
             return pred
-
-model = RuleTfidfTextEnsemble(2, 'rule_nlu.model', 'faq_filter.model')
-model.infer('데이터 선물하고 싶어')
