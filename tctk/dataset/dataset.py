@@ -6,14 +6,13 @@ from torch.utils.data import Dataset
 
 
 class TextClassificationDataset(Dataset):
-    def __init__(self, tok, sents: list, labels: list, max_len: int, do_corruption: bool = True):
+    def __init__(self, tok, sents: list, labels: list, max_len: int):
         assert len(sents) == len(labels)
         self.x = sents
         self.y = labels
         self.pad_id = tok.token_to_id(tok.pad)
         self.tok = tok
         self.max_len = max_len
-        self.do_corruption = do_corruption
 
     def __getitem__(self, item):
         x, y = self.x[item], self.y[item]
@@ -25,9 +24,6 @@ class TextClassificationDataset(Dataset):
 
     def tokenize(self, text: str):
         tokens = self.tok.text_to_id(text)
-        if self.do_corruption:
-            if random.random() <= 0.4:
-                tokens = self._corruption(tokens)
         length = min(len(tokens), self.max_len)
         if len(tokens) <= self.max_len:
             tokens += [self.pad_id] * (self.max_len - length)

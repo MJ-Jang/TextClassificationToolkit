@@ -1,4 +1,8 @@
 sentencepiece
 numpy
 tqdm
+krwordrank
+dill
+sklearn
+imblearn
 torch==1.4.0

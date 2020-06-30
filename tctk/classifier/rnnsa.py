@@ -113,8 +113,19 @@ class RNNSAClassifier:
             self.model.train()
             print("Train total loss: {} | Val loss : {} | Val acc: {}".format(total_loss, val_loss, val_acc))
 
-    def infer(self):
-        pass
+    def infer(self, sent: str):
+        softmax = torch.nn.Softmax(dim=-1)
+        token = self.tok.text_to_id(sent)
+
+        inputs = torch.LongTensor([token])
+        logits = self.model(inputs)
+        logits = softmax(logits)
+        prob, pred = logits.max(dim=-1)
+
+        if self.label_dict:
+            return self.label_dict['id2label'][int(pred)], prob
+        else:
+            return int(pred), prob
 
     def save_dict(self, save_path, model_prefix):
         os.makedirs(save_path, exist_ok=True)
