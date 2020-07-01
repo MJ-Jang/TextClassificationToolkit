@@ -25,5 +25,5 @@ class RuleTfidfTextEnsemble:
             else:
                 res = ''
         else:
-            res = pred,
+            res = pred
         return {'pred': res,  'ml_score': prob, 'rule_score': score}
