@@ -73,6 +73,7 @@ class RNNSAClassifier:
               lr: float,
               save_path: str,
               model_prefix: str,
+              early_stop: int = 3,
               **kwargs
               ):
         self.model.train()
@@ -85,7 +86,7 @@ class RNNSAClassifier:
         dataset = TextClassificationDataset(self.tok, tr_sents, labels_idx, max_len)
         dataloader = DataLoader(dataset, batch_size=batch_size, num_workers=kwargs['num_workers'])
         best_loss = 1e6
-
+        patience = 0
         for epoch in range(num_epochs):
             total_loss = 0
             for batch in tqdm(dataloader, desc='batch progress'):
@@ -110,7 +111,13 @@ class RNNSAClassifier:
             if val_loss <= best_loss:
                 self.save_dict(save_path, model_prefix)
                 best_loss = val_loss
+            else:
+                patience += 1
             self.model.train()
+
+            if patience >= early_stop:
+                print("I can not wait any more!!")
+                break
             print("Train total loss: {} | Val loss : {} | Val acc: {}".format(total_loss, val_loss, val_acc))
 
     def infer(self, sent: str):
