@@ -38,7 +38,7 @@ class RuleTextClassifier:
         :param special_intents: intents that uses all tokens as keywords
         """
         train_dict = self._build_train_dict(sents, labels)
-        max_class_len = max([len(v) for k,v in train_dict.keys()])
+        max_class_len = max([len(v) for k, v in train_dict.items()])
 
         keyword_dict = {}
         for key, value in tqdm(train_dict.items(), desc='extracting keywords'):
