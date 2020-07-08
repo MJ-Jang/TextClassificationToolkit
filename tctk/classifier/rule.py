@@ -2,6 +2,7 @@ import re
 import os
 import dill
 import difflib
+import math
 
 from krwordrank.word import KRWordRank
 from tqdm import tqdm
@@ -37,15 +38,18 @@ class RuleTextClassifier:
         :param special_intents: intents that uses all tokens as keywords
         """
         train_dict = self._build_train_dict(sents, labels)
+        max_class_len = max([len(v) for k,v in train_dict.keys()])
+
         keyword_dict = {}
         for key, value in tqdm(train_dict.items(), desc='extracting keywords'):
             wordrank_extractor = KRWordRank(
-                min_count=1,
-                max_length=15,
+                min_count=self.min_cnt,
+                max_length=self.max_len,
                 verbose=True
             )
+            num_ratio = int((max_class_len / len(value)) ** (1.0 / 3.0))
 
-            keywords, _, _ = wordrank_extractor.extract(value, self.beta, max_iter, num_keywords=num_keywords)
+            keywords, _, _ = wordrank_extractor.extract(value, self.beta, max_iter, num_keywords=num_keywords * num_ratio)
             keywords = list(keywords.keys())
             keywords = [re.sub(pattern='[\\?\\.]+', repl='', string=s) for s in keywords]
             if special_intents and key in special_intents:
