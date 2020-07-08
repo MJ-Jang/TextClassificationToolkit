@@ -102,7 +102,7 @@ class RuleTextClassifier:
                 res.append((key, score))
                 res = sorted(res, key=lambda x: x[1], reverse=True)
                 pred, score = res[0]
-        return pred, score
+        return pred, score, res
 
     def _build_train_dict(self, sents: list, labels: list):
         outp = {}
