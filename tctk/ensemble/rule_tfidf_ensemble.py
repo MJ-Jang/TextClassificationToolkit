@@ -19,7 +19,7 @@ class RuleTfidfTextEnsemble:
         score = None
         pred, prob = self.tfidf_model.infer(text)
         if prob < tfidf_threshold:
-            pred_, score = self.rule_model.infer(text)
+            pred_, score, _ = self.rule_model.infer(text)
             if pred_ and score >= rule_threshold:
                 res = pred
             else:
